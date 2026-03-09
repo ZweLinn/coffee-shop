@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#C47B2B", // warm amber-brown (caramel)
+        primary: "#5D4037", // warm amber-brown (caramel)
         white: {
           DEFAULT: "#ffffff",
           100: "#FAF6F1", // warm off-white (cream)

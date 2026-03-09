@@ -46,6 +46,8 @@ import caramelLatte from "@/assets/images/coffee-2.png";
 import coldBrew from "@/assets/images/coffee-3.png";
 import matcha from "@/assets/images/coffee-4.png";
 
+import authLogo from "@/assets/images/authlogo.png";
+
 
 export const CATEGORIES = [
     {
@@ -205,4 +207,5 @@ export const images = {
     star,
     trash,
     user,
+    authLogo
 };

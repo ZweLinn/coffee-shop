@@ -20,7 +20,7 @@ export default function RootLayout() {
   }, [fontsLoaded, error]);
 
   return (
-    <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <StatusBar style="dark" />
     </Stack>

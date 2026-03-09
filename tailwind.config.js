@@ -5,21 +5,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#FE8C00",
+        primary: "#C47B2B", // warm amber-brown (caramel)
         white: {
           DEFAULT: "#ffffff",
-          100: "#fafafa",
-          200: "#FE8C00",
+          100: "#FAF6F1", // warm off-white (cream)
+          200: "#C47B2B", // matches primary (caramel accent)
         },
         gray: {
-          100: "#878787",
-          200: "#878787",
+          100: "#9A8C82", // warm taupe-gray
+          200: "#9A8C82",
         },
         dark: {
-          100: "#181C2E",
+          100: "#1C1209", // deep espresso black
         },
-        error: "#F14141",
-        success: "#2F9B65",
+        error: "#D94F3D", // slightly warmer red
+        success: "#4A7C59", // muted earthy green
       },
       fontFamily: {
         quicksand: ["Quicksand-Regular", "sans-serif"],

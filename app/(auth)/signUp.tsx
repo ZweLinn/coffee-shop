@@ -1,10 +1,11 @@
 import CustomButton from "@/components/auth/customButton";
 import CustomInput from "@/components/auth/customInput";
+import { createUser } from "@/lib/appwrite";
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import { Alert, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-export default function SignIn() {
+export default function SignInPage() {
   const [isSumbmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -14,15 +15,18 @@ export default function SignIn() {
   });
 
   const onSubmitHandler = async () => {
-    if (!form.email || !form.password) {
+    const { name, email, password, confirmPassword } = form;
+    if (!email || !password) {
       return Alert.alert("Please enter email and password");
+    }
+    if (password !== confirmPassword) {
+      return Alert.alert("Password doesn't match");
     }
     setIsSubmitting(true);
 
     try {
-      //call app write
+      await createUser({ email, password, name, confirmPassword });
 
-      Alert.alert("User Sign In successfully");
       router.replace("/");
     } catch (error: any) {
       Alert.alert("Error", error.message);

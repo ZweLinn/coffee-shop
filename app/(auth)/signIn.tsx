@@ -18,7 +18,6 @@ export default function SignInPage() {
 
     try {
       await SignIn({ email, password });
-
       router.replace("/");
     } catch (error: any) {
       Alert.alert("Error", error.message);
@@ -44,7 +43,11 @@ export default function SignInPage() {
         placeholder="Enter your password"
         secureTextEntry={true}
       />
-      <CustomButton title={"Login"} onPress={onSubmitHandler} />
+      <CustomButton
+        title={"Login"}
+        onPress={onSubmitHandler}
+        isLoading={isSumbmitting}
+      />
 
       <View className="flex justify-center mt-5 flex-row gap-2">
         <Text className="base-regular text-gray-100">

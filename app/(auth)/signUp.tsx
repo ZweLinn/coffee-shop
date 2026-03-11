@@ -67,7 +67,11 @@ export default function SignInPage() {
         placeholder="Enter your password"
         secureTextEntry={true}
       />
-      <CustomButton title={"Sign Up"} onPress={onSubmitHandler} />
+      <CustomButton
+        title={"Sign Up"}
+        onPress={onSubmitHandler}
+        isLoading={isSumbmitting}
+      />
 
       <View className="flex justify-center mt-5 flex-row gap-2">
         <Text className="base-regular text-gray-100">

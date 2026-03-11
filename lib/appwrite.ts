@@ -1,12 +1,17 @@
 
-import { Account, Avatars, Client, Databases, ID, Query } from "react-native-appwrite";
+import { Account, Avatars, Client, Databases, ID, Query, Storage } from "react-native-appwrite";
 
 export const appwriteConfig ={
     endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
     platform : "com.zwe.coffee_shop",
     project: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
-    databaseId : "69ae7fd30019eca95694",
-    tableId : "user"
+    databaseId : process.env.EXPO_PUBLIC_APPWRITE_DATABSE_ID!,
+    bucketId : "69b12c2e002b2c07452e",
+    usertableId : "user",
+    categoriestableId : "categories",
+    menutableId :"menu",
+    customizationstableId : "customizations",
+    menuCustomizationstableId : "menu_customizations"
 }
 
 export const client = new Client();
@@ -16,8 +21,9 @@ client
 .setPlatform(appwriteConfig.platform)
 
 
-const account = new Account(client);
-const database = new Databases(client);
+export const account = new Account(client);
+export const database = new Databases(client);
+export const storage = new Storage(client);
 const avatar = new Avatars(client);
 
 interface CreateUserPrams {
@@ -49,7 +55,7 @@ export const createUser = async ({email , password , name , confirmPassword}: Cr
 
           return await database.createDocument(
             appwriteConfig.databaseId,
-            appwriteConfig. tableId,
+            appwriteConfig. usertableId,
             ID.unique(),
             { email, name, accountId: newAccount.$id, avwatar: avatarUrl }
         );
@@ -84,7 +90,7 @@ export const getCurrentUser = async() =>{
         
         const currentUser = await database.listDocuments(
             appwriteConfig.databaseId,
-            appwriteConfig.tableId,
+            appwriteConfig.usertableId,
             [
                 Query.equal("accountId" , currentAccount.$id)
             ]

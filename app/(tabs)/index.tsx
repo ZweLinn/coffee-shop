@@ -46,7 +46,7 @@ export default function Index() {
                         isEven ? "pl-10" : "pr-10",
                       )}
                     >
-                      <Text className="h3-bold font-black text-white leading-tight">
+                      <Text className="h2-bold font-black text-white leading-tight">
                         {item.title}
                       </Text>
                       <Image

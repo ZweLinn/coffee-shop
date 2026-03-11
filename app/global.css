@@ -97,6 +97,10 @@
     @apply text-3xl font-quicksand-bold font-bold;
   }
 
+  .h2-bold {
+    @apply text-xl font-black;
+  }
+
   .h3-bold {
     @apply text-xl font-quicksand-bold;
   }

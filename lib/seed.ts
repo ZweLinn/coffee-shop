@@ -1,3 +1,4 @@
+import { MenuItem } from "@/type";
 import { ID } from "react-native-appwrite";
 import { appwriteConfig, database as databases, storage } from "./appwrite";
 import dummyData from "./data";
@@ -13,16 +14,6 @@ interface Customization {
     type: "topping" | "milk" | "suger" | "syrup" | "oat_milk" | "cream" | "size" | "extra";
 }
 
-interface MenuItem {
-    name: string;
-    description: string;
-    image_url: string;
-    price: number;
-    rating: number;
-    is_available: boolean;
-    category_name: string;
-    customizations: string[];
-}
 
 interface DummyData {
     categories: Category[];

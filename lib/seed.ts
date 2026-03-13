@@ -1,12 +1,9 @@
-import { MenuItem } from "@/type";
+import { Category, MenuItem } from "@/type";
 import { ID } from "react-native-appwrite";
 import { appwriteConfig, database as databases, storage } from "./appwrite";
 import dummyData from "./data";
 
-interface Category {
-    name: string;
-    description: string;
-}
+
 
 interface Customization {
     name: string;

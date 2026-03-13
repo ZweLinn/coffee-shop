@@ -1,7 +1,9 @@
+import Filter from "@/components/menu/filter";
 import MenuCard from "@/components/menu/menuCard";
+import MenuHeader from "@/components/menu/menuHeader";
 import { getCategories, getMenu } from "@/lib/appwrite";
 import useAppwrite from "@/lib/useAppwrite";
-import { MenuItem } from "@/type";
+import { Category, MenuItem } from "@/type";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { FlatList, View } from "react-native";
@@ -28,8 +30,11 @@ export default function Search() {
   useEffect(() => {
     refetch({ category, query, limit: 6 });
   }, [category, query]);
+
+  console.log("category", categories);
+
   return (
-    <View>
+    <View className="bg-white">
       <FlatList
         data={data}
         keyExtractor={(item) => item.$id}
@@ -41,7 +46,12 @@ export default function Search() {
             </View>
           );
         }}
-        ListHeaderComponent={() => <View></View>}
+        ListHeaderComponent={() => (
+          <View className="flex gap-5">
+            <MenuHeader />
+            <Filter categories={categories as unknown as Category[]} />
+          </View>
+        )}
       />
     </View>
   );

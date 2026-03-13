@@ -9,10 +9,10 @@ export default function MenuCard({
   return (
     <TouchableOpacity
       activeOpacity={0.85}
-      className="flex-row items-center bg-white px-6 py-4 border-b rounded-lg border-gray-100"
+      className="flex-row items-center bg-white px-6 py-4  rounded-lg border-gray-100"
     >
       {/* Left: Image with rating */}
-      <View className="items-center mr-4">
+      <View className="items-center mr-4 self-center">
         <Image
           source={{ uri: image_url }}
           className="w-20 h-20 rounded-full bg-gray-100"
@@ -25,7 +25,7 @@ export default function MenuCard({
       </View>
 
       {/* Middle: Name + Description */}
-      <View className="flex-1">
+      <View className="flex-1 self-start pt-3">
         <Text className="text-base font-semibold text-gray-900 mb-0.5">
           {name}
         </Text>
@@ -37,7 +37,7 @@ export default function MenuCard({
       </View>
 
       {/* Right: Price */}
-      <View className="items-end ml-3">
+      <View className="items-end ml-3 self-start pt-3.5">
         <Text className="text-sm font-semibold text-gray-900">
           {price?.toLocaleString("id-ID")} Ks
         </Text>

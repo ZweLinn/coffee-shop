@@ -28,3 +28,9 @@ export interface GetMenuParams {
     category: string;
     query: string;
 }
+
+export interface Category {
+    $id: string;
+    name: string;
+    description: string;
+}

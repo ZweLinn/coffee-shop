@@ -153,10 +153,10 @@ export default function TabLayout() {
       unfocused: "home-outline" as keyof typeof Ionicons.glyphMap,
     },
     {
-      name: "search",
-      title: "Search",
-      focused: "search" as keyof typeof Ionicons.glyphMap,
-      unfocused: "search-outline" as keyof typeof Ionicons.glyphMap,
+      name: "menu",
+      title: "Menu",
+      focused: "cafe" as keyof typeof Ionicons.glyphMap,
+      unfocused: "cafe-outline" as keyof typeof Ionicons.glyphMap,
     },
     {
       name: "cart",

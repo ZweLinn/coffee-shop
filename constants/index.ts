@@ -47,7 +47,7 @@ import coldBrew from "@/assets/images/coffee-3.png";
 import matcha from "@/assets/images/coffee-4.png";
 
 import authLogo from "@/assets/images/authlogo.png";
-
+import emptyStateLogo from "@/assets/images/empty-state-1.png";
 
 
 
@@ -209,5 +209,6 @@ export const images = {
     star,
     trash,
     user,
-    authLogo
+    authLogo,
+    emptyStateLogo
 };

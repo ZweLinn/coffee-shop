@@ -31,7 +31,7 @@ const Filter = ({ categories }: { categories: Category[] }) => {
           key={item.$id}
           className={cn(
             "bg-white px-4 py-2 rounded-full",
-            active === item.$id ? "bg-primary" : "bg-[#FFFAF6]",
+            active === item.$id ? "bg-[#5D4037]" : "bg-[#FFFAF6]",
           )}
           style={
             Platform.OS === "android"

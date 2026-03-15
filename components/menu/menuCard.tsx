@@ -2,7 +2,7 @@ import { MenuItem } from "@/type";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function MenuCard({
-  item: { name, image_url, price, rating, description, original_price },
+  item: { $id, name, image_url, price, rating, description, original_price },
 }: {
   item: MenuItem & { description?: string; original_price?: number };
 }) {
@@ -34,6 +34,9 @@ export default function MenuCard({
             {description}
           </Text>
         ) : null}
+        <TouchableOpacity className="flex-row items-center mt-2">
+          <Text className="font-bold text-primary">Add to Cart +</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Right: Price */}

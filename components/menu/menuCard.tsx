@@ -16,7 +16,7 @@ export default function MenuCard({
   return (
     <TouchableOpacity
       activeOpacity={0.85}
-      className="flex-row items-center bg-white px-6 py-4  rounded-lg border-gray-100"
+      className="flex-row items-center bg-white-100 px-6 py-4  rounded-lg border-gray-100"
       onPress={() => menuDetailHandler($id)}
     >
       {/* Left: Image with rating */}

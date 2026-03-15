@@ -27,7 +27,7 @@ export default function Search() {
   }, [category, query]);
 
   return (
-    <View className="bg-white flex-1">
+    <View className="bg-white-100 flex-1">
       <FlatList
         data={data}
         keyExtractor={(item) => item.$id}

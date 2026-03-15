@@ -153,7 +153,7 @@ export default function TabLayout() {
       unfocused: "home-outline" as keyof typeof Ionicons.glyphMap,
     },
     {
-      name: "menu",
+      name: "(menu)",
       title: "Menu",
       focused: "cafe" as keyof typeof Ionicons.glyphMap,
       unfocused: "cafe-outline" as keyof typeof Ionicons.glyphMap,
@@ -176,19 +176,16 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          borderRadius: 50,
-          marginHorizontal: 20,
+          borderRadius: 10,
+
           paddingTop: 8,
           paddingBottom: 8,
           height: 76,
-          position: "absolute",
-          bottom: 36,
           backgroundColor: "#FFFAF6",
           shadowColor: "#5D4037",
           shadowOffset: { width: 0, height: 6 },
           shadowOpacity: 0.12,
           shadowRadius: 20,
-          elevation: 10,
           borderWidth: 1,
           borderColor: "rgba(93, 64, 55, 0.07)",
         },

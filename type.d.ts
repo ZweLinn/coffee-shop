@@ -56,6 +56,15 @@ export interface CartCustomization {
     type: string;
 }
 
+export interface CartItemType {
+    id: string; // menu item id
+    name: string;
+    price: number;
+    image_url: string;
+    quantity: number;
+    customizations?: CartCustomization[];
+}
+
 
 export interface PaymentInfoStripeProps {
     label: string;

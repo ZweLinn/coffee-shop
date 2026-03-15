@@ -59,7 +59,7 @@ export default function CarouselBanner() {
             key={i}
             className={`rounded-full ${
               i === activeIndex
-                ? "w-2.5 h-2.5 bg-[#4A2C1A]"
+                ? "w-2 h-2.5 bg-[#4A2C1A]"
                 : "w-2 h-2 bg-[#C8B4A8]"
             }`}
           />

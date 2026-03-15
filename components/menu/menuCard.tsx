@@ -1,4 +1,5 @@
 import { MenuItem } from "@/type";
+import { router } from "expo-router";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function MenuCard({
@@ -6,10 +7,17 @@ export default function MenuCard({
 }: {
   item: MenuItem & { description?: string; original_price?: number };
 }) {
+  const menuDetailHandler = (id: string) => {
+    router.push({
+      pathname: "/(tabs)/(menu)/[id]" as const,
+      params: { id: id },
+    });
+  };
   return (
     <TouchableOpacity
       activeOpacity={0.85}
       className="flex-row items-center bg-white px-6 py-4  rounded-lg border-gray-100"
+      onPress={() => menuDetailHandler($id)}
     >
       {/* Left: Image with rating */}
       <View className="items-center mr-4 self-center">
@@ -26,17 +34,12 @@ export default function MenuCard({
 
       {/* Middle: Name + Description */}
       <View className="flex-1 self-start pt-3">
-        <Text className="text-base font-semibold text-gray-900 mb-0.5">
-          {name}
-        </Text>
+        <Text className="text-base font-semibold text-dark mb-0.5">{name}</Text>
         {description ? (
-          <Text className="text-xs text-gray-500 leading-4" numberOfLines={2}>
+          <Text className="text-xs text-gray-100 leading-4" numberOfLines={2}>
             {description}
           </Text>
         ) : null}
-        <TouchableOpacity className="flex-row items-center mt-2">
-          <Text className="font-bold text-primary">Add to Cart +</Text>
-        </TouchableOpacity>
       </View>
 
       {/* Right: Price */}

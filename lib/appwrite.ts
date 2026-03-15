@@ -131,6 +131,20 @@ export const getMenu = async({  category, query} : GetMenuParams ) =>{
 
 }
 
+export const getMenuById = async (id: string) => {
+    try {
+        const menu = await database.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.menutableId,
+            id
+        );
+
+        return menu;
+    } catch (e) {
+        throw new Error(e as string);
+    }
+}
+
 
 export const getCategories = async () => {
     try {

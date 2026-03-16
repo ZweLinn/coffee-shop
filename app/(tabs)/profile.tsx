@@ -1,3 +1,4 @@
+import { signOut } from "@/lib/appwrite";
 import { useAuthStore } from "@/store/auth.store";
 import { Ionicons } from "@expo/vector-icons";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
@@ -44,6 +45,10 @@ export default function Profile() {
         year: "numeric",
       })
     : null;
+
+  const signoOutHandler = async () => {
+    await signOut();
+  };
 
   return (
     <ScrollView
@@ -164,6 +169,7 @@ export default function Profile() {
         <TouchableOpacity
           className="bg-white border border-error/20 rounded-2xl py-4 flex-row items-center justify-center gap-2 shadow-sm"
           activeOpacity={0.8}
+          onPress={signoOutHandler}
         >
           <Ionicons name="log-out-outline" size={18} color="#D94F3D" />
           <Text className="text-error font-quicksand-semibold text-sm">

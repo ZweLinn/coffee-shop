@@ -1,7 +1,7 @@
 import CartButton from "@/components/cartButton";
+import HeroCard from "@/components/heroCard";
 import { images, offers } from "@/constants";
-import cn from "clsx";
-import React, { Fragment, useRef } from "react";
+import React, { useRef } from "react";
 import {
   Animated,
   FlatList,
@@ -13,140 +13,110 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const OfferCard = ({
-  item,
-  index,
-}: {
-  item: (typeof offers)[0];
-  index: number;
-}) => {
-  const isEven = index % 2 === 0;
+const SmallCard = ({ item }: { item: (typeof offers)[0] }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
-  const handlePressIn = () => {
+  const handlePressIn = () =>
     Animated.spring(scaleAnim, {
-      toValue: 0.97,
+      toValue: 0.96,
       useNativeDriver: true,
       speed: 20,
     }).start();
-  };
-
-  const handlePressOut = () => {
+  const handlePressOut = () =>
     Animated.spring(scaleAnim, {
       toValue: 1,
       useNativeDriver: true,
       speed: 20,
     }).start();
-  };
 
   return (
     <Animated.View
-      style={{ transform: [{ scale: scaleAnim }] }}
-      className="mb-4 rounded-3xl overflow-hidden"
+      style={{ transform: [{ scale: scaleAnim }], flex: 1 }}
+      className="rounded-2xl overflow-hidden"
     >
       <Pressable
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        android_ripple={{ color: "#ffffff30" }}
+        android_ripple={{ color: "#ffffff20" }}
         style={{ backgroundColor: item.color }}
-        className="h-44 flex-row items-center relative overflow-hidden"
+        className="h-44 relative overflow-hidden p-4"
       >
-        {({ pressed }) => (
-          <Fragment>
-            {/* Decorative circle blob — follows the image */}
-            <View
-              className={cn(
-                "absolute w-56 h-56 rounded-full opacity-20",
-                isEven ? "-right-10 -bottom-10" : "-left-10 -bottom-10",
-              )}
-              style={{ backgroundColor: "#ffffff" }}
-            />
-            <View
-              className={cn(
-                "absolute w-32 h-32 rounded-full opacity-10",
-                isEven ? "right-24 -top-8" : "left-24 -top-8",
-              )}
-              style={{ backgroundColor: "#ffffff" }}
-            />
+        {/* Decorative blobs */}
+        <View
+          className="absolute w-32 h-32 rounded-full opacity-20"
+          style={{ backgroundColor: "#fff", bottom: -20, right: -20 }}
+        />
+        <View
+          className="absolute w-16 h-16 rounded-full opacity-10"
+          style={{ backgroundColor: "#fff", top: -10, left: 30 }}
+        />
 
-            {/* Image — right side on even */}
-            {isEven && (
-              <View className="h-full w-[48%] items-center justify-end pt-2">
-                <Image
-                  source={item.image}
-                  className="w-full h-40"
-                  resizeMode="contain"
-                />
-              </View>
-            )}
+        {/* Coffee image */}
+        <View className="absolute bottom-0 right-0 w-28 h-28">
+          <Image
+            source={item.image}
+            className="w-full h-full"
+            resizeMode="contain"
+          />
+        </View>
 
-            {/* Text side */}
-            <View
-              className={cn(
-                "flex-1 justify-center gap-y-3",
-                isEven ? "items-start pl-6 pr-2" : "items-start pl-2 pr-6",
-              )}
-            >
-              {/* Label tag */}
-              <View className="bg-white/20 px-2.5 py-1 rounded-full self-start">
-                <Text className="text-white/80 font-quicksand-medium text-[10px] tracking-widest uppercase">
-                  Featured
-                </Text>
-              </View>
+        {/* Text */}
+        <View className="bg-white/20 px-2 py-0.5 rounded-full self-start mb-2">
+          <Text className="text-white/80 font-quicksand-medium text-[9px] tracking-widest uppercase">
+            Featured
+          </Text>
+        </View>
+        <Text
+          className="font-quicksand-bold text-white text-sm leading-tight"
+          numberOfLines={2}
+        >
+          {item.title}
+        </Text>
 
-              <Text
-                className="font-quicksand-bold text-white text-xl leading-tight"
-                numberOfLines={2}
-              >
-                {item.title}
-              </Text>
-
-              {/* CTA row */}
-              <View className="flex-row items-center gap-x-1.5 bg-white/20 px-3 py-1.5 rounded-full self-start">
-                <Text className="text-white font-quicksand-semibold text-xs">
-                  Order now
-                </Text>
-                <Image
-                  source={images.arrowRight}
-                  className="w-3 h-3"
-                  resizeMode="contain"
-                  tintColor="#ffffff"
-                />
-              </View>
-            </View>
-
-            {/* Image — left side on odd */}
-            {!isEven && (
-              <View className="h-full w-[48%] items-center justify-end pt-2">
-                <Image
-                  source={item.image}
-                  className="w-full h-40"
-                  resizeMode="contain"
-                />
-              </View>
-            )}
-          </Fragment>
-        )}
+        {/* Arrow button */}
+        <View className="absolute bottom-4 left-4 w-8 h-8 rounded-full bg-white/20 items-center justify-center">
+          <Image
+            source={images.arrowRight}
+            className="w-3 h-3"
+            resizeMode="contain"
+            tintColor="#ffffff"
+          />
+        </View>
       </Pressable>
     </Animated.View>
   );
 };
 
 export default function Index() {
+  const hero = offers[0];
+  const rest = offers.slice(1);
+
+  // Pair remaining items into rows of 2
+  const rows: (typeof offers)[] = [];
+  for (let i = 0; i < rest.length; i += 2) {
+    rows.push(rest.slice(i, i + 2));
+  }
+
   return (
     <SafeAreaView className="flex-1 bg-white-100">
       <FlatList
-        data={offers}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item, index }) => (
-          <OfferCard item={item} index={index} />
-        )}
-        contentContainerClassName="pb-28 px-5"
+        data={rows}
+        keyExtractor={(_, i) => i.toString()}
         showsVerticalScrollIndicator={false}
+        contentContainerClassName="pb-28 px-5"
+        renderItem={({ item: row }) => (
+          <View className="flex-row gap-x-3 mb-4">
+            {row.map((item) => (
+              <SmallCard key={item.id} item={item} />
+            ))}
+            {/* Fill empty slot if odd number */}
+            {row.length === 1 && <View style={{ flex: 1 }} />}
+          </View>
+        )}
         ListHeaderComponent={() => (
-          <View className="mb-5">
+          <View className="mb-1">
             {/* Greeting */}
-            <View className="mb-6 flex-row items-center justify-between">
+            <View className="mb-5 flex-row items-center justify-between">
               <View>
                 <Text className="font-quicksand text-gray-100 text-sm">
                   Good morning ☀️
@@ -157,10 +127,21 @@ export default function Index() {
               </View>
               <CartButton />
             </View>
-            {/* Section title */}
+
+            {/* Hero section label */}
             <View className="flex-row items-center justify-between mb-3">
               <Text className="font-quicksand-bold text-dark-100 text-base">
-                Today&apos;s Specials
+                Today&apos;s Special
+              </Text>
+            </View>
+
+            {/* Hero card */}
+            <HeroCard item={hero} />
+
+            {/* Small cards section label */}
+            <View className="flex-row items-center justify-between mb-3 mt-1">
+              <Text className="font-quicksand-bold text-dark-100 text-base">
+                Our Top Drinks
               </Text>
               <TouchableOpacity>
                 <Text className="font-quicksand-medium text-primary text-sm">

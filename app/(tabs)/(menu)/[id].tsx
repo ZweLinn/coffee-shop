@@ -84,15 +84,6 @@ export default function MenuDetail() {
           <Text className="text-lg text-white-200">♡</Text>
         </TouchableOpacity>
 
-        {/* Availability badge */}
-        {menu?.is_available && (
-          <View className="absolute top-14 self-center z-10 bg-success px-4 py-1 rounded-full">
-            <Text className="text-white font-quicksand-semibold text-[11px] tracking-widest uppercase">
-              Available
-            </Text>
-          </View>
-        )}
-
         {/* Coffee image */}
         {menu?.image_url ? (
           <Image

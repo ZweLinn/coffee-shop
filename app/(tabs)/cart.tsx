@@ -10,6 +10,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Cart() {
   const { items, getTotalItems, getTotalPrice } = useCartStore();
+  console.log("Items", items);
+
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
   return (

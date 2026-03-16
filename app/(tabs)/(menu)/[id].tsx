@@ -1,7 +1,7 @@
 import { getMenuById } from "@/lib/appwrite";
 import useAppwrite from "@/lib/useAppwrite";
 import { useCartStore } from "@/store/cart.store";
-import { CartItemType } from "@/type";
+import { MenuItem } from "@/type";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -54,18 +54,14 @@ export default function MenuDetail() {
   const { addItem } = useCartStore();
 
   const sizes = ["S", "M", "L"];
-  const sizeMultiplier: Record<string, number> = { S: 0.85, M: 1, L: 1.2 };
 
   const basePrice = menu?.price ?? 2500;
-  const totalPrice = Math.round(
-    basePrice * sizeMultiplier[selectedSize] * quantity,
-  );
 
   const formatPrice = (p: number) => p.toLocaleString() + " Ks";
 
-  const addToCartHandler = (menu: CartItemType) => {
+  const addToCartHandler = (menu: MenuItem) => {
     addItem({
-      id: menu?.id ?? "",
+      id: menu?.$id ?? "",
       name: menu?.name,
       image_url: menu?.image_url,
       price: basePrice * quantity,
@@ -170,7 +166,7 @@ export default function MenuDetail() {
           <View className="flex-row items-center gap-3.5 mb-9">
             {/* Add to Cart Button */}
             <TouchableOpacity
-              onPress={() => addToCartHandler(menu as unknown as CartItemType)}
+              onPress={() => addToCartHandler(menu as unknown as MenuItem)}
               className="flex-1 h-14 bg-primary rounded-[18px] flex-row items-center justify-center gap-2.5 shadow-lg"
             >
               <Text className="text-lg">☕</Text>

@@ -58,7 +58,7 @@ export const createUser = async ({email , password , name , confirmPassword}: Cr
             appwriteConfig.databaseId,
             appwriteConfig. usertableId,
             ID.unique(),
-            { email, name, accountId: newAccount.$id, avwatar: avatarUrl }
+            { email, name, accountId: newAccount.$id, avatar: avatarUrl }
         );
 
         

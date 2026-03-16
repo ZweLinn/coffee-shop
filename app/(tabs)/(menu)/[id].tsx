@@ -1,6 +1,7 @@
 import { getMenuById } from "@/lib/appwrite";
 import useAppwrite from "@/lib/useAppwrite";
 import { useCartStore } from "@/store/cart.store";
+import { CartItemType } from "@/type";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -62,6 +63,17 @@ export default function MenuDetail() {
 
   const formatPrice = (p: number) => p.toLocaleString() + " Ks";
 
+  const addToCartHandler = (menu: CartItemType) => {
+    addItem({
+      id: menu?.id ?? "",
+      name: menu?.name,
+      image_url: menu?.image_url,
+      price: basePrice * quantity,
+      customizations: [],
+    });
+    router.push("/cart");
+  };
+
   return (
     <View className="flex-1 bg-white-100">
       <StatusBar barStyle="dark-content" />
@@ -73,7 +85,7 @@ export default function MenuDetail() {
 
         {/* Back button */}
         <TouchableOpacity
-          onPress={() => router.back()}
+          onPress={() => router.push("/(menu)/menu")}
           className="absolute top-12 left-5 z-10 w-11 h-11 rounded-full bg-white items-center justify-center shadow-md"
         >
           <Text className="text-lg text-primary -mt-0.5">‹</Text>
@@ -156,44 +168,9 @@ export default function MenuDetail() {
 
           {/* Quantity & Add to Cart Row */}
           <View className="flex-row items-center gap-3.5 mb-9">
-            {/* Quantity Stepper */}
-            <View className="flex-row items-center bg-white rounded-[18px] border-2 border-[#E8D5C0] px-1.5 py-1.5 gap-1">
-              <TouchableOpacity
-                onPress={() => setQuantity((q) => Math.max(1, q - 1))}
-                className={`w-9 h-9 rounded-xl items-center justify-center ${
-                  quantity === 1 ? "bg-white-100" : "bg-[#F0E6D8]"
-                }`}
-              >
-                <Text className="text-primary text-xl font-quicksand-bold">
-                  −
-                </Text>
-              </TouchableOpacity>
-
-              <Text className="w-8 text-center font-quicksand-bold text-base text-dark-100">
-                {quantity}
-              </Text>
-
-              <TouchableOpacity
-                onPress={() => setQuantity((q) => q + 1)}
-                className="w-9 h-9 rounded-xl bg-primary items-center justify-center"
-              >
-                <Text className="text-white-100 text-xl font-quicksand-bold">
-                  +
-                </Text>
-              </TouchableOpacity>
-            </View>
-
             {/* Add to Cart Button */}
             <TouchableOpacity
-              onPress={() =>
-                addItem({
-                  id: menu?.$id ?? "",
-                  name: menu?.name,
-                  image_url: menu?.image_url,
-                  price: basePrice * quantity,
-                  customizations: [],
-                })
-              }
+              onPress={() => addToCartHandler(menu as unknown as CartItemType)}
               className="flex-1 h-14 bg-primary rounded-[18px] flex-row items-center justify-center gap-2.5 shadow-lg"
             >
               <Text className="text-lg">☕</Text>

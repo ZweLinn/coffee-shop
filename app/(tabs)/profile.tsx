@@ -37,7 +37,7 @@ const MENU_ITEMS = [
 ];
 
 export default function Profile() {
-  const { user } = useAuthStore();
+  const { user, setUser, setIsAuthenticated } = useAuthStore();
 
   const joinedDate = user?.$createdAt
     ? new Date(user.$createdAt).toLocaleDateString("en-US", {
@@ -48,6 +48,8 @@ export default function Profile() {
 
   const signoOutHandler = async () => {
     await signOut();
+    setUser(null);
+    setIsAuthenticated(false);
   };
 
   return (

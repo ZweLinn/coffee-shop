@@ -76,25 +76,25 @@ export const CATEGORIES = [
 
 export const offers = [
     {
-        id: 1,
+        id: "69b14c5800375151f300",
         title: "MORNING RITUAL",
         image: espresso,
         color: "#1C1209",
     },
     {
-        id: 2,
+        id: "69b14c5600375ad6282a",
         title: "CARAMEL DREAM",
         image: caramelLatte,
         color: "#C47B2B", 
     },
     {
-        id: 3,
+        id: "69b14c5d002c089a9c1b",
         title: "COLD BREW BLISS",
         image: coldBrew,
         color: "#3B2314",
     },
     {
-        id: 4,
+        id: "69b14c64001998c92454",
          title: "MATCHA LATTE",
         image: matcha,
         color: "#4A7C59",

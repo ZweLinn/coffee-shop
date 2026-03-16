@@ -1,16 +1,22 @@
 import { images, offers } from "@/constants";
+import { router } from "expo-router";
 import { useRef } from "react";
 import { Animated, Image, Pressable, Text, View } from "react-native";
 
 const HeroCard = ({ item }: { item: (typeof offers)[0] }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
-  const handlePressIn = () =>
+  const handlePressIn = () => {
     Animated.spring(scaleAnim, {
       toValue: 0.98,
       useNativeDriver: true,
       speed: 20,
     }).start();
+    router.push({
+      pathname: "/(tabs)/(menu)/[id]" as const,
+      params: { id: item.id },
+    });
+  };
   const handlePressOut = () =>
     Animated.spring(scaleAnim, {
       toValue: 1,

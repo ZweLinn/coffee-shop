@@ -1,4 +1,4 @@
-import { getMenuById } from "@/lib/appwrite";
+import { getMenuById, getMenuCustomizations } from "@/lib/appwrite";
 import useAppwrite from "@/lib/useAppwrite";
 import { useCartStore } from "@/store/cart.store";
 import { MenuItem } from "@/type";
@@ -47,6 +47,14 @@ export default function MenuDetail() {
     fn: ({ id }) => getMenuById(id),
     params: { id },
   });
+
+  // Fetch customizations for this menu item
+  const { data: customizations } = useAppwrite({
+    fn: ({ id }) => getMenuCustomizations(id),
+    params: { id },
+  });
+
+  console.log("cutomizations", customizations);
 
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("M");

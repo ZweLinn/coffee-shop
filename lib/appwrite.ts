@@ -151,6 +151,32 @@ export const getMenuById = async (id: string) => {
         throw new Error(e as string);
     }
 }
+export const getMenuCustomizations = async (menuId: string) => {
+  try {
+    // Step 1: Get junction table rows for this menu
+    const result = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.menuCustomizationstableId,
+      [Query.equal("menu", menuId)]
+    );
+
+    // Step 2: Extract customization IDs
+    const customizationIds = result.documents.map((doc) => doc.customizations);
+
+    if (customizationIds.length === 0) return [];
+
+    // Step 3: Fetch all customization documents by their IDs
+    const customizationDocs = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.customizationstableId,
+      [Query.equal("$id", customizationIds)]
+    );
+
+    return customizationDocs.documents;
+  } catch (e) {
+    throw new Error(e as string);
+  }
+};
 
 
 export const getCategories = async () => {

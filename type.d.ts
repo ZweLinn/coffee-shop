@@ -72,3 +72,10 @@ export interface PaymentInfoStripeProps {
     labelStyle?: string;
     valueStyle?: string;
 }
+
+export interface Customization {
+    $id: string;
+    name: string;
+    price: number;
+    type: string;
+}

@@ -1,6 +1,7 @@
 import { signOut } from "@/lib/appwrite";
 import { useAuthStore } from "@/store/auth.store";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 const MENU_ITEMS = [
@@ -8,31 +9,37 @@ const MENU_ITEMS = [
     icon: "bag-outline",
     label: "My Orders",
     subtitle: "Track & view your orders",
+    route: "orderList",
   },
   {
     icon: "heart-outline",
     label: "Wishlist",
     subtitle: "Items you've saved",
+    route: "wishlist",
   },
   {
     icon: "card-outline",
     label: "Payment Methods",
     subtitle: "Manage your cards",
+    route: "payment-methods",
   },
   {
     icon: "location-outline",
     label: "Saved Addresses",
     subtitle: "Manage delivery locations",
+    route: "addresses",
   },
   {
     icon: "notifications-outline",
     label: "Notifications",
     subtitle: "Alerts & preferences",
+    route: "notifications",
   },
   {
     icon: "settings-outline",
     label: "Settings",
     subtitle: "App preferences",
+    route: "settings",
   },
 ];
 
@@ -146,6 +153,7 @@ export default function Profile() {
               index !== MENU_ITEMS.length - 1 ? "border-b border-white-100" : ""
             }`}
             activeOpacity={0.7}
+            onPress={() => router.push(`/(tabs)/(profile)/${item.route}`)}
           >
             {/* Icon bubble */}
             <View className="w-10 h-10 rounded-xl bg-primary/10 items-center justify-center mr-4">

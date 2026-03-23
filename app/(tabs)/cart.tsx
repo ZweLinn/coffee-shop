@@ -1,21 +1,26 @@
 import CustomButton from "@/components/auth/customButton";
 import CartItem from "@/components/cart/cartItem";
 import PaymentInfoStripe from "@/components/cart/paymentInfo";
+import PaymentMethodSheet from "@/components/cart/paymentMethodSheet";
+
 import CustomHeader from "@/components/customHeader";
 import { EmptyState } from "@/components/emptyState";
 import { createOrder } from "@/lib/appwrite";
 
 import { useAuthStore } from "@/store/auth.store";
 import { useCartStore } from "@/store/cart.store";
-import { CartItemType } from "@/type";
+import { CartItemType, PaymentMethod } from "@/type";
 import { useState } from "react";
 import { FlatList, Modal, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Cart() {
   const { items, getTotalItems, getTotalPrice, clearCart } = useCartStore();
-  const { user } = useAuthStore(); // ← current user from your auth store
+  const { user } = useAuthStore();
 
+  const [showPaymentSheet, setShowPaymentSheet] = useState(false);
+  const [selectedPayment, setSelectedPayment] =
+    useState<PaymentMethod>("cash_on_delivery");
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
@@ -28,26 +33,32 @@ export default function Cart() {
   const totalPrice = getTotalPrice();
   const grandTotal = totalPrice + DELIVERY_FEE - DISCOUNT;
 
-  const handleCheckout = async () => {
+  const handleOrderNow = () => {
+    setError(null);
+    setShowPaymentSheet(true); // open bottom sheet first
+  };
+
+  const handleConfirmOrder = async () => {
     if (!user) return;
     setLoading(true);
-    setError(null);
 
     try {
       const result = await createOrder({
         userId: user.$id,
         items: items as CartItemType[],
         totalPrice: grandTotal,
+        paymentMethod: selectedPayment,
         deliveryFee: DELIVERY_FEE,
         discount: DISCOUNT,
       });
 
       setOrderId(result.orderId);
       clearCart();
+      setShowPaymentSheet(false);
       setShowSuccess(true);
     } catch (e) {
       setError("Failed to place order. Please try again.");
-      console.log("error ", e);
+      setShowPaymentSheet(false);
     } finally {
       setLoading(false);
     }
@@ -101,9 +112,9 @@ export default function Cart() {
                 />
               </View>
 
-              {/* ← Fixed: isLoading prop, removed invalid disabled/icon props */}
+              {/* Opens payment bottom sheet */}
               <CustomButton
-                onPress={handleCheckout}
+                onPress={handleOrderNow}
                 title="Order Now"
                 isLoading={loading}
               />
@@ -112,6 +123,17 @@ export default function Cart() {
         }
       />
 
+      <PaymentMethodSheet
+        visible={showPaymentSheet}
+        selected={selectedPayment}
+        grandTotal={grandTotal}
+        onSelect={setSelectedPayment}
+        onConfirm={handleConfirmOrder}
+        onClose={() => setShowPaymentSheet(false)}
+        isLoading={loading}
+      />
+
+      {/* ── Success modal ─────────────────────────────────────── */}
       <Modal
         visible={showSuccess}
         transparent
@@ -130,21 +152,6 @@ export default function Cart() {
             <Text className="base-regular text-gray-500 text-center">
               Your order has been received and is being prepared.
             </Text>
-
-            {orderId && (
-              <View className="bg-gray-100 rounded-xl px-4 py-2 mt-1">
-                <Text className="text-xs text-gray-400 text-center">
-                  Order ID
-                </Text>
-                <Text
-                  className="text-sm text-dark-100 font-medium text-center"
-                  numberOfLines={1}
-                >
-                  {orderId}
-                </Text>
-              </View>
-            )}
-
             <TouchableOpacity
               onPress={() => setShowSuccess(false)}
               className="w-full bg-primary rounded-2xl py-4 mt-2 items-center"

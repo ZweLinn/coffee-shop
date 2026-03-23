@@ -14,8 +14,9 @@ export const appwriteConfig ={
     customizationstableId : "customizations",
     menuCustomizationstableId : "menu_customizations",
     ordertableId : "order",
-    orderItemstableId : "order_items"
-
+    orderItemstableId : "order_items",
+    paymentstableId : "payment"
+ 
 }
 
 export const client = new Client();
@@ -200,6 +201,7 @@ export const createOrder = async ({
   userId,
   items,
   totalPrice,
+  paymentMethod,
   deliveryFee = 1000,
   discount = 500,
   note = "",
@@ -208,7 +210,7 @@ export const createOrder = async ({
     // 1. Create the parent order document
     const order = await database.createDocument(
       appwriteConfig.databaseId,
-      appwriteConfig.ordertableId,   // add "orderstableId" to appwriteConfig
+      appwriteConfig.ordertableId,
       ID.unique(),
       {
         userId,
@@ -220,7 +222,7 @@ export const createOrder = async ({
       }
     );
  
-    // 2. Create one order_item document per cart item (in parallel)
+    // 2. Create order_items in parallel
     const orderItemPromises = items.map((item) => {
       const customizationPrice =
         item.customizations?.reduce(
@@ -232,14 +234,13 @@ export const createOrder = async ({
  
       return database.createDocument(
         appwriteConfig.databaseId,
-        appwriteConfig.orderItemstableId, // add "orderItemstableId" to appwriteConfig
+        appwriteConfig.orderItemstableId,
         ID.unique(),
         {
-          order : order.$id,
+          order: order.$id,
           menuName: item.name,
           quantity: item.quantity,
           basePrice: item.price,
-          // Store customizations as a JSON string (Appwrite has no array-of-objects type)
           customizations: item.customizations
             ? JSON.stringify(item.customizations)
             : "[]",
@@ -248,10 +249,27 @@ export const createOrder = async ({
       );
     });
  
-    await Promise.all(orderItemPromises);
+    // 3. Create the payment document
+    const paymentPromise = database.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.paymentstableId,
+      ID.unique(),
+      {
+        order: order.$id,
+        method: paymentMethod,
+        status: "pending",
+        amount: totalPrice,
+      }
+    );
+ 
+    const [, payment] = await Promise.all([
+      Promise.all(orderItemPromises),
+      paymentPromise,
+    ]);
  
     return {
       orderId: order.$id,
+      paymentId: payment.$id,
       status: order.status,
       totalPrice: order.totalPrice,
       createdAt: order.$createdAt,
@@ -260,4 +278,3 @@ export const createOrder = async ({
     throw new Error(e as string);
   }
 };
- 

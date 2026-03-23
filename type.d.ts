@@ -85,14 +85,20 @@ export interface CreateOrderParams {
   userId: string;
   items: CartItemType[];
   totalPrice: number;
+  paymentMethod: PaymentMethod;
   deliveryFee?: number;
   discount?: number;
   note?: string;
 }
  
+ 
 export interface OrderResult {
   orderId: string;
+  paymentId: string;
   status: string;
   totalPrice: number;
   createdAt: string;
 }
+
+
+export type PaymentMethod = "cash_on_delivery" | "qr_code" | "credit_card";

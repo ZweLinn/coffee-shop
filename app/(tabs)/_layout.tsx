@@ -165,7 +165,7 @@ export default function TabLayout() {
       unfocused: "cart-outline" as keyof typeof Ionicons.glyphMap,
     },
     {
-      name: "profile",
+      name: "(profile)",
       title: "Profile",
       focused: "person" as keyof typeof Ionicons.glyphMap,
       unfocused: "person-outline" as keyof typeof Ionicons.glyphMap,

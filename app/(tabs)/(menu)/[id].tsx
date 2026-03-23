@@ -47,6 +47,7 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 export default function MenuDetail() {
+  const { increaseQty, decreaseQty } = useCartStore();
   const router = useRouter();
   const id = useLocalSearchParams<{ id: string }>().id;
 
@@ -133,13 +134,16 @@ export default function MenuDetail() {
       type: c.type,
     }));
 
-    addItem({
-      id: menu.$id,
-      name: menu.name,
-      image_url: menu.image_url,
-      price: totalUnitPrice * quantity,
-      customizations: cartCustomizations,
-    });
+    addItem(
+      {
+        id: menu.$id,
+        name: menu.name,
+        image_url: menu.image_url,
+        price: basePrice,
+        customizations: cartCustomizations,
+      },
+      quantity,
+    );
 
     router.push("/cart");
   };
@@ -280,6 +284,13 @@ export default function MenuDetail() {
             </View>
           )}
 
+          <View className="mb-5">
+            <Text className="text-primary">
+              {" "}
+              Total Price : {formatPrice(totalUnitPrice * quantity)}
+            </Text>
+          </View>
+
           {/* Quantity + Add to Cart */}
           <View className="flex-row items-center gap-3.5 mb-9">
             {/* Quantity selector */}
@@ -312,7 +323,7 @@ export default function MenuDetail() {
             >
               <Text className="text-lg">☕</Text>
               <Text className="font-quicksand-bold text-white-100 text-[15px] tracking-wide">
-                Add to Cart · {formatPrice(totalUnitPrice * quantity)}
+                Add to Cart
               </Text>
             </TouchableOpacity>
           </View>

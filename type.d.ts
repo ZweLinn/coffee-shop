@@ -14,6 +14,7 @@ export interface MenuItem {
 
 
 export interface User extends Models.Document {
+    $id: string;
     name: string;
     email: string;
     avatar: string;
@@ -78,4 +79,20 @@ export interface Customization {
     name: string;
     price: number;
     type: string;
+}
+
+export interface CreateOrderParams {
+  userId: string;
+  items: CartItemType[];
+  totalPrice: number;
+  deliveryFee?: number;
+  discount?: number;
+  note?: string;
+}
+ 
+export interface OrderResult {
+  orderId: string;
+  status: string;
+  totalPrice: number;
+  createdAt: string;
 }

@@ -1,5 +1,5 @@
 
-import { GetMenuParams } from "@/type";
+import { CartCustomization, CreateOrderParams, GetMenuParams, OrderResult } from "@/type";
 import { Account, Avatars, Client, Databases, ID, Query, Storage } from "react-native-appwrite";
 
 export const appwriteConfig ={
@@ -12,7 +12,10 @@ export const appwriteConfig ={
     categoriestableId : "categories",
     menutableId :"menu",
     customizationstableId : "customizations",
-    menuCustomizationstableId : "menu_customizations"
+    menuCustomizationstableId : "menu_customizations",
+    ordertableId : "order",
+    orderItemstableId : "order_items"
+
 }
 
 export const client = new Client();
@@ -192,3 +195,69 @@ export const getCategories = async () => {
     }
     
 }
+
+export const createOrder = async ({
+  userId,
+  items,
+  totalPrice,
+  deliveryFee = 1000,
+  discount = 500,
+  note = "",
+}: CreateOrderParams): Promise<OrderResult> => {
+  try {
+    // 1. Create the parent order document
+    const order = await database.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.ordertableId,   // add "orderstableId" to appwriteConfig
+      ID.unique(),
+      {
+        userId,
+        status: "pending",
+        totalPrice,
+        deliveryFee,
+        discount,
+        note,
+      }
+    );
+ 
+    // 2. Create one order_item document per cart item (in parallel)
+    const orderItemPromises = items.map((item) => {
+      const customizationPrice =
+        item.customizations?.reduce(
+          (sum: number, c: CartCustomization) => sum + c.price,
+          0
+        ) ?? 0;
+ 
+      const itemTotal = item.quantity * (item.price + customizationPrice);
+ 
+      return database.createDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.orderItemstableId, // add "orderItemstableId" to appwriteConfig
+        ID.unique(),
+        {
+          order : order.$id,
+          menuName: item.name,
+          quantity: item.quantity,
+          basePrice: item.price,
+          // Store customizations as a JSON string (Appwrite has no array-of-objects type)
+          customizations: item.customizations
+            ? JSON.stringify(item.customizations)
+            : "[]",
+          itemTotal,
+        }
+      );
+    });
+ 
+    await Promise.all(orderItemPromises);
+ 
+    return {
+      orderId: order.$id,
+      status: order.status,
+      totalPrice: order.totalPrice,
+      createdAt: order.$createdAt,
+    };
+  } catch (e) {
+    throw new Error(e as string);
+  }
+};
+ 

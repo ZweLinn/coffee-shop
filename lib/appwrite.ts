@@ -278,3 +278,54 @@ export const createOrder = async ({
     throw new Error(e as string);
   }
 };
+
+export const getOrders = async (userId: string) => {
+  try {
+    const orders = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.ordertableId,
+      [
+        Query.equal("userId", userId),
+        Query.orderDesc("$createdAt"),
+      ]
+    );
+ 
+    return orders.documents;
+  } catch (e) {
+    throw new Error(e as string);
+  }
+};
+ 
+// Fetch a single order with its items and payment
+export const getOrderById = async (orderId: string) => {
+  try {
+    // 1. Get the order document
+    const order = await database.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.ordertableId,
+      orderId
+    );
+ 
+    // 2. Get order items linked to this order
+    const itemsResult = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.orderItemstableId,
+      [Query.equal("order", orderId)]
+    );
+ 
+    // 3. Get the payment linked to this order
+    const paymentResult = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.paymentstableId,
+      [Query.equal("order", orderId)]
+    );
+ 
+    return {
+      ...order,
+      items: itemsResult.documents,
+      payment: paymentResult.documents[0] ?? null,
+    };
+  } catch (e) {
+    throw new Error(e as string);
+  }
+};

@@ -10,6 +10,7 @@ import { createOrder } from "@/lib/appwrite";
 import { useAuthStore } from "@/store/auth.store";
 import { useCartStore } from "@/store/cart.store";
 import { CartItemType, PaymentMethod } from "@/type";
+import { router } from "expo-router";
 import { useState } from "react";
 import { FlatList, Modal, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -61,6 +62,16 @@ export default function Cart() {
       setShowPaymentSheet(false);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    if (orderId) {
+      router.push({
+        pathname: "/(tabs)/(profile)/(orderDetail)/[id]" as const,
+        params: { id: orderId },
+      });
     }
   };
 
@@ -152,12 +163,13 @@ export default function Cart() {
             <Text className="base-regular text-gray-500 text-center">
               Your order has been received and is being prepared.
             </Text>
+
             <TouchableOpacity
-              onPress={() => setShowSuccess(false)}
+              onPress={() => handleCloseSuccess()}
               className="w-full bg-primary rounded-2xl py-4 mt-2 items-center"
               activeOpacity={0.8}
             >
-              <Text className="base-bold text-white">Back to Menu</Text>
+              <Text className="base-bold text-white">Order Details</Text>
             </TouchableOpacity>
           </View>
         </View>

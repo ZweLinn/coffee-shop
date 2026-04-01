@@ -1,4 +1,3 @@
-import CustomHeader from "@/components/customHeader";
 import { EmptyState } from "@/components/emptyState";
 import OrderCard, { OrderDocument } from "@/components/order/orderCard";
 
@@ -11,6 +10,7 @@ import {
   FlatList,
   RefreshControl,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -70,7 +70,7 @@ export default function OrderList() {
         data={orders}
         // $id is always present on Appwrite documents — safe to use as key
         keyExtractor={(item) => item.$id}
-        contentContainerClassName="px-5 pt-5 pb-28"
+        contentContainerClassName="px-5 pt-5 pb-28 bg-white-100"
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -78,8 +78,22 @@ export default function OrderList() {
           />
         }
         ListHeaderComponent={
-          <View className="mb-5">
-            <CustomHeader title="My Orders" />
+          <View className="mb-5 ">
+            <SafeAreaView edges={["top"]}>
+              <View className="flex-row gap-3 ">
+                <TouchableOpacity
+                  onPress={() => router.push("/(tabs)/(profile)/profile")}
+                  className="w-10 h-10 rounded-full bg-[#F0E6D8] items-center justify-center"
+                >
+                  <Text className="text-lg text-primary -mt-0.5">‹</Text>
+                </TouchableOpacity>
+                <View className="flex-1">
+                  <Text className="font-quicksand-bold text-xl text-dark-100">
+                    Order History
+                  </Text>
+                </View>
+              </View>
+            </SafeAreaView>
             {error && (
               <View className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mt-3">
                 <Text className="text-red-600 text-sm">{error}</Text>
@@ -97,7 +111,12 @@ export default function OrderList() {
               order={item}
               itemCount={itemCount}
               paymentMethod={paymentMethod}
-              onPress={() => router.push(`/orders/${item.$id}`)} // adjust route
+              onPress={() =>
+                router.push({
+                  pathname: "/(tabs)/(profile)/(orderDetail)/[id]" as const,
+                  params: { id: item.$id },
+                })
+              }
             />
           );
         }}

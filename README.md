@@ -33,21 +33,46 @@ This project is a modern mobile application designed to provide a seamless exper
 
 ## 🖥️ Screenshots
 
-![Screenshot of Authentication Screen](screenshots/Auth_screen.jpg)
-
-![Screenshot of Home Screen](screenshots/Home_screen.jpg)
-
-![Screenshot of Product Menu Screen](screenshots/Product_menu_screen.jpg)
-
-![Screenshot of Product Detail Screen](screenshots/Product_detail_screen.jpg)
-
-![Screenshot of Shopping Cart](screenshots/Cart_screen.jpg)
-
-![Screenshot of Payment](screenshots/Payment_method_screen.jpg)
-
-![Screenshot of Order Detail](screenshots/Order_detail_screen.jpg)
-
-![Screenshot of Order List](screenshots/Order_list_screen.jpg)
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="screenshots/Auth_screen.jpg" width="200" /><br />
+        <b>Authentication</b>
+      </td>
+      <td align="center">
+        <img src="screenshots/Home_screen.jpg" width="200" /><br />
+        <b>Home</b>
+      </td>
+      <td align="center">
+        <img src="screenshots/Product_menu_screen.jpg" width="200" /><br />
+        <b>Menu</b>
+      </td>
+      <td align="center">
+        <img src="screenshots/Product_detail_screen.jpg" width="200" /><br />
+        <b>Detail</b>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="screenshots/Cart_screen.jpg" width="200" /><br />
+        <b>Cart</b>
+      </td>
+      <td align="center">
+        <img src="screenshots/Payment_method_screen.jpg" width="200" /><br />
+        <b>Payment</b>
+      </td>
+      <td align="center">
+        <img src="screenshots/Order_detail_screen.jpg" width="200" /><br />
+        <b>Order Detail</b>
+      </td>
+      <td align="center">
+        <img src="screenshots/Order_list_screen.jpg" width="200" /><br />
+        <b>Order List</b>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ## 🛠️ Tech Stack
 
